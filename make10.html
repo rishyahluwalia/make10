@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width" />
+	<title>Make10</title>
+	<h2 id='s'>Successful</h2>
+	<table id="output-success">
+		<tr>
+			<th>Number combination</th>
+			<th>Operation combination</th>
+			<th>Sum 1</th>
+			<th>Sum 2</th>
+			<th>Sum 3</th>
+			<th>Final String</th>
+		</tr>
+	</table>
+
+	<h2 id='us'>Unsuccessful</h2>
+	<table id="output">
+		<tr>
+			<th>Number combination</th>
+			<th>Operation combination</th>
+			<th>Sum 1</th>
+			<th>Sum 2</th>
+			<th>Sum 3</th>
+			<th>Final String</th>
+		</tr>
+	</table>
+</head>
+<style>
+	#output {
+		border-collapse: collapse
+	}
+
+	#output>td,
+	th {
+		border: 1px solid black;
+		padding: 15px;
+	}
+
+	#output-success {
+		border-collapse: collapse
+	}
+
+	#output-success>td,
+	th {
+		border: 1px solid black;
+		padding: 15px;
+	}
+</style>
+
+<body>
+	<script charset="utf-8">
+
+		function WriteToTable() {
+			var table = document.getElementById('output');
+			u_combinations = getUnique(u_combinations, 'final')
+			u_combinations.forEach(comb => {
+				var tr = document.createElement("tr");
+				table.appendChild(tr)
+				var td_number_combination = document.createElement("td");
+				td_number_combination.appendChild(document.createTextNode(comb.number_combination))
+				td_number_combination.style.border = '1px solid black'
+				td_number_combination.style.padding = '15px'
+				tr.appendChild(td_number_combination)
+
+				var td_operation_combination = document.createElement("td");
+				td_operation_combination.appendChild(document.createTextNode(comb.operation_combination))
+				td_operation_combination.style.border = '1px solid black'
+				td_operation_combination.style.padding = '15px'
+				tr.appendChild(td_operation_combination)
+
+				var td_sum1 = document.createElement("td");
+				td_sum1.appendChild(document.createTextNode(comb.sum1))
+				td_sum1.style.border = '1px solid black'
+				td_sum1.style.padding = '15px'
+				tr.appendChild(td_sum1)
+
+				var td_sum2 = document.createElement("td");
+				td_sum2.appendChild(document.createTextNode(comb.sum2))
+				td_sum2.style.border = '1px solid black'
+				td_sum2.style.padding = '15px'
+				tr.appendChild(td_sum2)
+
+				var td_sum3 = document.createElement("td");
+				td_sum3.appendChild(document.createTextNode(comb.sum3))
+				td_sum3.style.border = '1px solid black'
+				td_sum3.style.padding = '15px'
+				tr.appendChild(td_sum3)
+
+				var td_final = document.createElement("td");
+				td_final.appendChild(document.createTextNode(comb.final))
+				td_final.style.border = '1px solid black'
+				td_final.style.padding = '15px';
+				tr.appendChild(td_final);
+
+			})
+
+			var table = document.getElementById('output-success');
+			s_combinations = getUnique(s_combinations, 'final')
+			s_combinations.forEach(comb => {
+				var tr = document.createElement("tr");
+				table.appendChild(tr)
+				var td_number_combination = document.createElement("td");
+				td_number_combination.appendChild(document.createTextNode(comb.number_combination))
+				td_number_combination.style.border = '1px solid black'
+				td_number_combination.style.padding = '15px'
+				tr.appendChild(td_number_combination)
+
+				var td_operation_combination = document.createElement("td");
+				td_operation_combination.appendChild(document.createTextNode(comb.operation_combination))
+				td_operation_combination.style.border = '1px solid black'
+				td_operation_combination.style.padding = '15px'
+				tr.appendChild(td_operation_combination)
+
+				var td_sum1 = document.createElement("td");
+				td_sum1.appendChild(document.createTextNode(comb.sum1))
+				td_sum1.style.border = '1px solid black'
+				td_sum1.style.padding = '15px'
+				tr.appendChild(td_sum1)
+
+				var td_sum2 = document.createElement("td");
+				td_sum2.appendChild(document.createTextNode(comb.sum2))
+				td_sum2.style.border = '1px solid black'
+				td_sum2.style.padding = '15px'
+				tr.appendChild(td_sum2)
+
+				var td_sum3 = document.createElement("td");
+				td_sum3.appendChild(document.createTextNode(comb.sum3))
+				td_sum3.style.border = '1px solid black'
+				td_sum3.style.padding = '15px'
+				tr.appendChild(td_sum3)
+
+				var td_final = document.createElement("td");
+				td_final.appendChild(document.createTextNode(comb.final))
+				td_final.style.border = '1px solid black'
+				td_final.style.padding = '15px';
+				tr.appendChild(td_final);
+
+			})
+
+			document.getElementById('us').innerHTML = "Unsuccessful (" + u_combinations.length + ")"
+			document.getElementById('s').innerHTML = "Successful (" + s_combinations.length + ")"
+		}
+
+		function getUnique(arr, comp) {
+
+			const unique = arr
+				.map(e => e[comp])
+
+				// store the keys of the unique objects
+				.map((e, i, final) => final.indexOf(e) === i && i)
+
+				// eliminate the dead keys & store unique objects
+				.filter(e => arr[e]).map(e => arr[e]);
+
+			return unique;
+		}
+
+		var operators = {
+			'+': function (a, b) { return parseFloat(a) + parseFloat(b) },
+			'-': function (a, b) { return parseFloat(a) - parseFloat(b) },
+			'x': function (a, b) { return parseFloat(a) * parseFloat(b) },
+			'/': function (a, b) { return parseFloat(a) / parseFloat(b) }
+		}
+		operations = ['+,-,x', '-,x,/', '+,x,/', '+,-,/']
+		var numbers = prompt("Enter any 4 numbers (i.e \"1534\")").split('');
+		var n_combinations = []
+		var o_combinations = []
+		var s_combinations = []
+		var u_combinations = []
+		// Rotate all 4 numbers i.e, [1 5 3 4]
+		for (var p = 0; p < 4; p++) {
+			// Rotate last three numbers (i.e, [1][5 3 4])
+			for (var i = 0; i < 3; i++) {
+				// Rotate last two numbers (i.e, [1 5][3 4])
+				for (var j = 0; j < 2; j++) {
+					let temp = numbers[j + 1];
+					numbers[j + 1] = numbers[j + 2]
+					numbers[j + 2] = temp;
+					n_combinations.push(numbers.toString())
+				}
+			}
+			// Now change the first number to the end of the array
+			let temp = numbers[0];
+			for (var k = 0; k < numbers.length - 1; k++) {
+				numbers[k] = numbers[k + 1];
+			}
+			numbers[numbers.length - 1] = temp;
+		}
+		console.log(n_combinations)
+
+		operations.forEach(op => {
+			let operation = op.split(',')
+			// Rotate all 4 numbers i.e, [1 5 3 4]
+			for (var p = 0; p < 3; p++) {
+				// Rotate last three numbers (i.e, [1][5 3 4])
+				for (var i = 0; i < 2; i++) {
+					// Rotate last two numbers (i.e, [1 5][3 4])
+					for (var j = 0; j < 1; j++) {
+						let temp = operation[j + 1];
+						operation[j + 1] = operation[j + 2]
+						operation[j + 2] = temp;
+						o_combinations.push(operation.toString())
+					}
+				}
+				// Now change the first number to the end of the array
+				let temp = operation[0];
+				for (var k = 0; k < operation.length - 1; k++) {
+					operation[k] = operation[k + 1];
+				}
+				operation[operation.length - 1] = temp;
+			}
+		})
+		o_combinations.push('+,+,+', '-,-,-', '/,/,/', 'x,x,x')
+		console.log(o_combinations)
+
+		n_combinations.forEach(n => {
+			var nc = n.split(',');
+			o_combinations.forEach(o => {
+				var oc = o.split(',');
+
+				// Normal Left to Right (1 2 3 4)
+				let case1 = {
+					sum1: parseFloat(operators[oc[0]](nc[0], nc[1])).toFixed(2),
+					sum2: parseFloat(operators[oc[1]](parseFloat(operators[oc[0]](nc[0], nc[1])).toFixed(2), nc[2])).toFixed(2),
+					sum3: parseFloat(operators[oc[2]](parseFloat(operators[oc[1]](parseFloat(operators[oc[0]](nc[0], nc[1])).toFixed(2), nc[2])).toFixed(2), nc[3])).toFixed(2),
+					final: `${nc[0]} ${oc[0]} ${nc[1]} ${oc[1]} ${nc[2]} ${oc[2]} ${nc[3]} = ${parseFloat(operators[oc[2]](parseFloat(operators[oc[1]](parseFloat(operators[oc[0]](nc[0], nc[1])).toFixed(2), nc[2])).toFixed(2), nc[3])).toFixed(2)}`
+				}
+
+				// (1 2)(3 4) -> (nc0 oc0 nc1) oc1 (nc2 oc2 nc3)
+				let case2 = {
+					sum1: parseFloat(operators[oc[0]](nc[0], nc[1])).toFixed(2),
+					sum2: parseFloat(operators[oc[2]](nc[2], nc[3])).toFixed(2),
+					sum3: parseFloat(operators[oc[1]](parseFloat(operators[oc[0]](nc[0], nc[1])).toFixed(2), parseFloat(operators[oc[2]](nc[2], nc[3])).toFixed(2))).toFixed(2),
+					final: `(${nc[0]} ${oc[0]} ${nc[1]}) ${oc[1]} (${nc[2]} ${oc[2]} ${nc[3]}) = ${parseFloat(operators[oc[1]](parseFloat(operators[oc[0]](nc[0], nc[1])).toFixed(2), parseFloat(operators[oc[2]](nc[2], nc[3])).toFixed(2))).toFixed(2)}`
+				}
+				// 1 (2 3 4) -> nc0 oc0 ((nc1 oc1 nc2) oc2 nc3)
+				let case3 = {
+					sum1: parseFloat(operators[oc[1]](nc[1], nc[2])).toFixed(2),
+					sum2: parseFloat(operators[oc[2]](parseFloat(operators[oc[1]](nc[1], nc[2])).toFixed(2), nc[3])).toFixed(2),
+					sum3: parseFloat(operators[oc[0]](nc[0], parseFloat(operators[oc[2]](parseFloat(operators[oc[1]](nc[1], nc[2])).toFixed(2), nc[3])).toFixed(2))).toFixed(2),
+					final: `${nc[0]} ${oc[0]} ((${nc[1]} ${oc[1]} ${nc[2]}) ${oc[2]} ${nc[3]}) = ${parseFloat(operators[oc[0]](nc[0], parseFloat(operators[oc[2]](parseFloat(operators[oc[1]](nc[1], nc[2])).toFixed(2), nc[3])).toFixed(2))).toFixed(2)}`
+				}
+				// (1 (2 3)) 4 -> (nc0 oc0 (nc1 oc1 nc2)) oc2 nc3
+				let case4 = {
+					sum1: parseFloat(operators[oc[1]](nc[1], nc[2])).toFixed(2),
+					sum2: parseFloat(operators[oc[0]](nc[0], parseFloat(operators[oc[1]](nc[1], nc[2])).toFixed(2))).toFixed(2),
+					sum3: parseFloat(operators[oc[2]](parseFloat(operators[oc[0]](nc[0], parseFloat(operators[oc[1]](nc[1], nc[2])).toFixed(2))).toFixed(2), nc[3]).toFixed(2)).toFixed(2),
+					final: `(${nc[0]} ${oc[0]} (${nc[1]} ${oc[1]} ${nc[2]})) ${oc[2]} ${nc[3]} = ${parseFloat(operators[oc[2]](parseFloat(operators[oc[0]](nc[0], parseFloat(operators[oc[1]](nc[1], nc[2])).toFixed(2))).toFixed(2), nc[3]).toFixed(2)).toFixed(2)}`
+				}
+
+				let cases = [case1, case2, case3, case4]
+
+				cases.forEach(c => {
+
+					let s_comb = {
+						number_combination: nc.toString(),
+						operation_combination: oc.toString(),
+						sum1: c.sum1,
+						sum2: c.sum2,
+						sum3: c.sum3,
+						final: c.final
+					}
+					if (c.sum3 == 10.00) {
+						s_combinations.push(s_comb)
+					} else {
+						u_combinations.push(s_comb)
+					}
+				})
+			})
+		})
+		console.log()
+
+		WriteToTable();
+
+	</script>
+</body>
+
+</html>
